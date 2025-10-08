@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login • QuickBus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Login to QuickBus</h2>
+    <input type="email" id="email" placeholder="Enter Email" />
+    <input type="password" id="password" placeholder="Enter Password" />
+    <button class="btn" onclick="login()">Login</button>
+  </div>
+
+  <!-- Firebase scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="firebaseConfig.js"></script>
+  <script>
+    function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (email === "supriya@noob.com" && password === "admin2025") {
+        window.location.href = "admin.html";
+      } else {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+          .then(() => {
+            alert("Login successful!");
+            window.location.href = "dashboard.html";
+          })
+          .catch(error => {
+            alert(error.message);
+          });
+      }
+    }
+  </script>
+</body>
+</html>

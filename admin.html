@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard • QuickBus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Dashboard</h2>
+
+    <input type="text" id="from" placeholder="From (e.g., Chennai)" />
+    <input type="text" id="to" placeholder="To (e.g., Bangalore)" />
+    <input type="time" id="time" />
+    <input type="number" id="price" placeholder="Fare (₹)" />
+    <button class="btn" onclick="addRoute()">Add Route</button>
+
+    <p id="status" style="margin-top: 15px; color: green;"></p>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="firebaseConfig.js"></script>
+  <script>
+    function addRoute() {
+      const from = document.getElementById('from').value;
+      const to = document.getElementById('to').value;
+      const time = document.getElementById('time').value;
+      const price = document.getElementById('price').value;
+
+      if (!from || !to || !time || !price) {
+        alert("Please fill in all fields");
+        return;
+      }
+
+      const busData = {
+        from,
+        to,
+        time,
+        price
+      };
+
+      const db = firebase.database();
+      const newRef = db.ref("buses").push();
+      newRef.set(busData).then(() => {
+        document.getElementById('status').innerText = "Route added successfully!";
+        document.getElementById('from').value = '';
+        document.getElementById('to').value = '';
+        document.getElementById('time').value = '';
+        document.getElementById('price').value = '';
+      }).catch((error) => {
+        alert("Error adding route: " + error.message);
+      });
+    }
+  </script>
+</body>
+</html>

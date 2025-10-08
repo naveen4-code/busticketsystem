@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NOOB Travels • Ticket</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Your Ticket 🎫</h2>
+    <div class="ticket" id="ticket"></div>
+    <button class="btn" onclick="downloadPDF()">Download PDF</button>
+    <button class="btn" onclick="window.print()">Print</button>
+    <button class="btn" onclick="window.location.href='dashboard.html'">Back</button>
+  </div>
+
+  <script>
+    const bus = JSON.parse(localStorage.getItem('bus')) || {};
+    const seat = localStorage.getItem('seat') || '-';
+    const name = localStorage.getItem('name') || 'Passenger';
+    const pnr = Math.floor(100000 + Math.random() * 900000);
+    const date = new Date().toLocaleDateString();
+    const fare = bus.price ? `₹${bus.price}` : '₹299';
+
+    document.getElementById("ticket").innerHTML = `
+      <p><strong>NOOB Travels Ticket</strong></p>
+      <p><strong>PNR:</strong> ${pnr}</p>
+      <p><strong>Passenger:</strong> ${name}</p>
+      <p><strong>From:</strong> ${bus.from || '-'}</p>
+      <p><strong>To:</strong> ${bus.to || '-'}</p>
+      <p><strong>Departure:</strong> ${bus.time || '-'}</p>
+      <p><strong>Date:</strong> ${date}</p>
+      <p><strong>Seat:</strong> ${seat}</p>
+      <p><strong>Fare:</strong> ${fare}</p>
+    `;
+
+    function downloadPDF() {
+      const element = document.getElementById('ticket');
+      html2pdf().from(element).save(`NOOB_Ticket_${pnr}.pdf`);
+    }
+  </script>
+</body>
+</html>

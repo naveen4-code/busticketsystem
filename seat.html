@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NOOB Travels • Select Seat</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Select Your Seat</h2>
+    <div class="seats" id="seats"></div>
+    <button class="btn" onclick="confirmSeat()">Next</button>
+  </div>
+
+  <script>
+    const seatsDiv = document.getElementById("seats");
+    for (let i = 1; i <= 40; i++) {
+      const seat = document.createElement("div");
+      seat.className = "seat";
+      seat.innerText = i;
+      seat.onclick = () => {
+        document.querySelectorAll(".seat").forEach(s => s.classList.remove("selected"));
+        seat.classList.add("selected");
+        localStorage.setItem("seat", i);
+      };
+      seatsDiv.appendChild(seat);
+    }
+
+    function confirmSeat() {
+      const selected = document.querySelector(".seat.selected");
+      if (!selected) {
+        alert("Please select a seat before proceeding.");
+        return;
+      }
+      window.location.href = "booking.html";
+    }
+  </script>
+</body>
+</html>

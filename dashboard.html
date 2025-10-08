@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>QuickBus • Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Welcome to QuickBus Dashboard</h2>
+    <p>Select your route below:</p>
+    <div id="busList"></div>
+  </div>
+
+  <!-- Firebase scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="firebaseConfig.js"></script>
+
+  <script>
+    const db = firebase.database();
+
+    db.ref("buses").on("value", snapshot => {
+      const data = snapshot.val();
+      const busListDiv = document.getElementById("busList");
+      busListDiv.innerHTML = "";
+
+      if (data) {
+        Object.keys(data).forEach(id => {
+          const bus = data[id];
+          const div = document.createElement("div");
+          div.className = "bus";
+          div.innerHTML = `
+            <p><strong>From:</strong> ${bus.from}</p>
+            <p><strong>To:</strong> ${bus.to}</p>
+            <p><strong>Time:</strong> ${bus.time}</p>
+            <p><strong>Price:</strong> ₹${bus.price}</p>
+            <button class="btn" onclick='selectBus(${JSON.stringify(bus)})'>Select</button>
+          `;
+          busListDiv.appendChild(div);
+        });
+      } else {
+        busListDiv.innerHTML = "<p>No routes available.</p>";
+      }
+    });
+
+    function selectBus(bus) {
+      localStorage.setItem("bus", JSON.stringify(bus));
+      window.location.href = "seat.html";
+    }
+  </script>
+</body>
+</html>
+
