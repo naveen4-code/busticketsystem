@@ -1,5 +1,5 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyBz_CNPcrzc6M1CY5jrkaYaO_05aMTJhow",
+  apiKey: "Un key podra venna",
   authDomain: "bus-ticket-system-ca88c.firebaseapp.com",
   projectId: "bus-ticket-system-ca88c",
   storageBucket: "bus-ticket-system-ca88c.firebasestorage.app",
